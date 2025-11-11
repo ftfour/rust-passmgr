@@ -18,7 +18,9 @@ mod get;
 mod init;
 mod list;
 mod remove;
+mod update;
 
+pub use update::handle_update;
 pub use add::handle_add;
 pub use get::handle_get;
 pub use init::handle_init;

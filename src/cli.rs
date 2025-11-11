@@ -2,7 +2,9 @@ use anyhow::Result;
 use clap::{Parser, Subcommand, CommandFactory};
 use std::path::PathBuf;
 
-use crate::commands::{handle_init, handle_add, handle_list, handle_get, handle_remove};
+use crate::commands::{
+    handle_init, handle_add, handle_list, handle_get, handle_remove, handle_update,
+};
 
 /// 🔐 Minimal password manager written in Rust.
 ///
@@ -89,6 +91,7 @@ pub enum Commands {
         #[arg(value_name = "COMMAND")]
         command: Option<String>,
     },
+    Update,
 }
 
 /// Entry point for the CLI.
@@ -107,6 +110,7 @@ pub fn run() -> Result<()> {
         Some(Commands::Get { file, key }) => handle_get(file, key)?,
         Some(Commands::Remove { file, key }) => handle_remove(file, key)?,
         Some(Commands::Help { command }) => show_help(command)?,
+        Some(Commands::Update) => handle_update()?,
         None => {
             Cli::command().print_help()?;
         }
