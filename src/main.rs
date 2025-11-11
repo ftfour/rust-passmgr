@@ -41,6 +41,11 @@ enum Commands {
         #[arg(short, long, default_value = "vault.json")]
         file: PathBuf,
     },
+    Get {
+        #[arg(short, long, default_value = "vault.json")]
+        file: PathBuf,
+        key: String,
+    },
 }
 
 fn main() -> Result<()> {
@@ -154,7 +159,32 @@ fn main() -> Result<()> {
                 }
             }
         }
-    }
+        Commands::Get { file, key } => {
+            if !file.exists() {
+                println!("Файл {:?} не найден. Сначала запусти `init`.", file);
+                return Ok(());
+            }
 
+            let ff = load_fileformat(&file)?.expect("Ошибка при чтении файла");
+            let salt = general_purpose::STANDARD.decode(&ff.salt)?;
+            let blob = general_purpose::STANDARD.decode(&ff.blob)?;
+            let master = rpassword::prompt_password("Мастер-пароль: ")?;
+            let vault = decrypt_vault(&blob, &master, &salt)?;
+
+            match vault.entries.get(&key) {
+                Some(entry) => {
+                    println!("Запись: {}", key);
+                    println!("Логин: {}", entry.login);
+                    println!("Пароль: {}", entry.password);
+                    if let Some(notes) = &entry.notes {
+                        println!("Заметка: {}", notes);
+                    }
+                }
+                None => {
+                    println!(" Запись '{}' не найдена.", key);
+                }
+            }
+        }
+    }
     Ok(())
 }
