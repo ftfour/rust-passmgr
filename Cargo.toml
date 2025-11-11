@@ -1,0 +1,16 @@
+[package]
+name = "rust_passmgr"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] } # CLI-интерфейс
+serde = { version = "1.0", features = ["derive"] } # сериализация в JSON
+serde_json = "1.0" # работа с JSON
+rand = "0.8" # генерация случайных чисел
+argon2 = "0.4" # шифрование пароля (KDF)
+aes-gcm = "0.10" # шифрование хранилища
+base64 = "0.21" # кодирование
+zeroize = "1.5" # безопасное обнуление секретов
+rpassword = "7.0" # ввод пароля без эха
+anyhow = "1.0" # удобная обработка ошибок
