@@ -1,14 +1,26 @@
-# Rust
-/target/
+## Rust project default
+target/
+**/target/
 **/*.rs.bk
 
-# IDEs
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-Thumbs.db
-TODO.md
-vault.json
+## Build system
 Cargo.lock
+
+## Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tmp
+
+## MacOS
+.DS_Store
+
+## Node/npm (if any)
+node_modules/
+
+## Logs
+*.log
+
+## Secrets
+.env
